@@ -1,25 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import LineChart from './components/LineChart';
+import rawData from './assets/values.json'
+import Historgram from './components/Historgram';
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Historgram 
+      title="My first historgram"
+      width={1000}
+      height={500}
+      data={rawData.value}
+      label={rawData.label}
+      fontSize={15}
+      padding={70}
+      barPadding={20}
+      yScale={10}
+    />
   );
 }
 
