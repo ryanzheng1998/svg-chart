@@ -10,14 +10,14 @@ interface Props {
 
 const YAxis: React.FC<Props> = ({padding, height, yScale, maxValue, fontSize}) => {
     const yLable = new Array(Math.floor(maxValue / yScale)).fill(0).map((_, index) => (
-        <>
+        <g key={index}>
             <line 
                 x1={padding + 1}
                 y1={height - padding - (height - 2 * padding) / maxValue * index * yScale}
                 x2={padding - 10}
                 y2={height - padding - (height - 2 * padding) / maxValue * index * yScale}
                 stroke="black"
-                strokeWidth={1}
+                strokeWidth="1px"
             />
             <text
                 x={padding - 15}
@@ -26,7 +26,7 @@ const YAxis: React.FC<Props> = ({padding, height, yScale, maxValue, fontSize}) =
                 alignmentBaseline="central"
                 fontSize={fontSize}
             >{index * yScale}</text>
-        </>
+        </g>
     ))
 
     return <>{yLable}</>

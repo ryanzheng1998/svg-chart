@@ -1,38 +1,30 @@
 import React from 'react'
 import Border from './Border'
 import Tooltip from './ToolTip'
-import XAxis from './XAxis'
+import XAxis2 from './XAxis2'
 import YAxis from './YAxis'
 
 // ----------------------
 // state model
-// ----------------------
+// ---------------------
 interface State {
     showTooltip: boolean;
     tooltipContent: string;
     mousePositionX: number;
     mousePositionY: number;
+    pointOnHover: boolean[];
 }
 
 interface Props {
     title: string;
-    data: number[];
+    data: number[][];
     width: number;
-    height: number; 
+    height: number;
     fontSize: number;
     padding: number;
-    barPadding: number;
-    label: string[];
     yScale: number;
+    xScale: number;
 }
-
-const initState: State = {
-    showTooltip: false,
-    tooltipContent: '',
-    mousePositionX: 0,
-    mousePositionY: 0,
-}
-
 
 
 // ----------------------
@@ -88,29 +80,32 @@ const reducer = (state: State, action: Action): State => {
     }
 }
 
-// ----------------------
-// draw
-// ----------------------
-const Historgram: React.FC<Props> = ({title, data, width, height, fontSize, padding, barPadding, label, yScale}) => {
+const ScatterChart: React.FC<Props> = (p) => {
+
+    const initState: State = {
+        showTooltip: false,
+        tooltipContent: '',
+        mousePositionX: 0,
+        mousePositionY: 0,
+        pointOnHover: new Array(p.data.length).fill(false),
+    }
 
     const [state, dispatch] = React.useReducer(reducer, initState)
     const canvas = React.useRef<SVGSVGElement>(null)
+    const maxX = Math.max(...p.data.map(v => v[0])) + 10
+    const maxY = Math.max(...p.data.map(v => v[1])) + 10
 
-    const maxValue = Math.max(...data)
-    const barAreaLen = (width - 2 * padding) / data.length
-
-    const Bars = data.map((value, index) => (
-        <rect 
+    const points = p.data.map((value, index) => (
+        <circle 
             key={index}
-            x={index * barAreaLen + barPadding + padding}
-            y={height - padding - (height - 2 * padding) / maxValue * value}
-            width={barAreaLen - 2 * barPadding}
-            height={(height - 2 * padding) / maxValue * value}
-            fill='#4A90E2'
+            cx={(p.width - 2 * p.padding) / maxX * value[0] + p.padding}
+            cy={p.height - p.padding - (p.height - 2 * p.padding) / maxY * value[1]}
+            r={5}
+            fill="rgb(128, 0, 0)"
             onMouseMove={e => {
                 if (!canvas.current) return
                 const svgPosition = clientToSVGPosition(canvas.current)(e.clientX)(e.clientY)
-                return dispatch(onHover(svgPosition.x, svgPosition.y, `${label[index]}: ${value}`))
+                return dispatch(onHover(svgPosition.x, svgPosition.y, `x: ${value[0]} \n y: ${value[1]}`))
             }}
             onMouseOver={() => dispatch(mouseHover(true))}
             onMouseOut={() => dispatch(mouseHover(false))}
@@ -121,44 +116,45 @@ const Historgram: React.FC<Props> = ({title, data, width, height, fontSize, padd
         <>
             <svg 
                 ref={canvas}
-                width={width}
-                height={height}
+                width={p.width}
+                height={p.height}
             >
                 <text
                     x="50%"
-                    y={fontSize* 2}
-                    fontSize={fontSize*1.5}
+                    y={p.fontSize* 2}
+                    fontSize={p.fontSize*1.5}
                     alignmentBaseline="central"
                     textAnchor="middle"
-                >{title}</text>
+                >{p.title}</text>
+                {points}
                 <Border 
-                    padding={padding}
-                    width={width}
-                    height={height}
+                    padding={p.padding}
+                    width={p.width}
+                    height={p.height}
                  />           
-                {Bars}
-                <XAxis 
-                    labels={label}
-                    fontSize={fontSize}
-                    padding={padding}
-                    height={height}
-                    spacing={barAreaLen}
+                <XAxis2 
+                    fontSize={p.fontSize}
+                    padding={p.padding}
+                    height={p.height}
+                    maxValue={maxX}
+                    xScale={p.xScale}
+                    width={p.width}
                 />
                 <YAxis
-                    padding={padding}
-                    height={height}
-                    yScale={yScale}
-                    maxValue={maxValue}
-                    fontSize={fontSize}
+                    padding={p.padding}
+                    height={p.height}
+                    yScale={p.yScale}
+                    maxValue={maxY}
+                    fontSize={p.fontSize}
                 />
                 {state.showTooltip && <Tooltip 
                     x={state.mousePositionX + 15}
                     y={state.mousePositionY - 9}
-                    fontSize={fontSize}
+                    fontSize={p.fontSize}
                 >{state.tooltipContent}</Tooltip> }
             </svg>
         </>
     )
 }
 
-export default Historgram
+export default ScatterChart
