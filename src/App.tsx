@@ -7,7 +7,7 @@ function App() {
 
   return (
     <Historgram 
-      title="My first historgram"
+      title="My First Historgram"
       width={1000}
       height={500}
       data={rawData.value}
