@@ -1,8 +1,8 @@
 import React from 'react'
-import Border from './Border'
-import Tooltip from './ToolTip'
-import XAxis2 from './XAxis2'
-import YAxis from './YAxis'
+import Border from './subComponents/Border'
+import Tooltip from './subComponents/ToolTip'
+import XAxis2 from './subComponents/XAxis2'
+import YAxis from './subComponents/YAxis'
 
 // ----------------------
 // state model

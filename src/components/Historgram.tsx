@@ -1,8 +1,8 @@
 import React from 'react'
-import Border from './Border'
-import Tooltip from './ToolTip'
-import XAxis from './XAxis'
-import YAxis from './YAxis'
+import Border from './subComponents/Border'
+import Tooltip from './subComponents/ToolTip'
+import XAxis from './subComponents/XAxis'
+import YAxis from './subComponents/YAxis'
 
 // ----------------------
 // state model
@@ -142,7 +142,7 @@ const Historgram: React.FC<Props> = ({title, data, width, height, fontSize, padd
                     fontSize={fontSize}
                     padding={padding}
                     height={height}
-                    spacing={barAreaLen}
+                    width={width}     
                 />
                 <YAxis
                     padding={padding}
