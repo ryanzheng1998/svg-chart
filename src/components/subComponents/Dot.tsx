@@ -1,5 +1,5 @@
 import React from 'react'
-import { Vector } from '../../lib/interfaces/basic';
+import { Vector } from '../../lib/2d/interfaces/basic'
 
 interface Props {
     data: Vector[];

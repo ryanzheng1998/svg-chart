@@ -1,5 +1,5 @@
 import React from 'react'
-import { Vector } from '../../lib/interfaces/basic';
+import { Vector } from '../../lib/2d/interfaces/basic';
 import { zipWith3 } from '../../lib/zipWith3';
 import Dots from './Dot';
 

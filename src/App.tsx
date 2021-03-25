@@ -6,11 +6,21 @@ import rawData3 from './assets/values3.json'
 import Historgram from './components/Historgram';
 import ScatterChart from './components/ScatterChart';
 import PieChart from './components/PieChart';
+import Historgram2 from './components/Historgram2';
 
 function App() {
 
   return (
     <>
+      <Historgram2
+        title="My Second Historgram"
+        titleFontSize={20}
+        canvasSize={{x: 1000, y: 500}}
+        data={rawData.value}
+        label={rawData.label}
+        labelFontSize={15}
+        yScale={10}
+      />
       <PieChart 
         title="My First Pie Chart"
         data={rawData.value}
